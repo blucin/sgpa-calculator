@@ -30,10 +30,21 @@
     }
 
     onMount(() => {
+        type formDataType = {
+            SubjectName: string,
+            Grade: number,
+            Credits: number
+        }[];
+
         // check for old form data
-        if(typeof localStorage !== 'undefined') {
-            const oldFormData = localStorage.getItem('formData');
-        }   
+        let formData:formDataType = getFormData(); 
+
+        function getFormData():formDataType {
+            if(typeof localStorage !== 'undefined') {
+                return JSON.parse(localStorage.getItem('formData') || '[]');
+            }
+            return [];
+        }
     });
 </script>
 
@@ -46,7 +57,9 @@
 
     {#if subCnt>0}
         <div class="form">
-
+            <input type="text" placeholder="Subject Name" />
+            <input type="number" placeholder="Grade" min="0" />
+            <input type="number" placeholder="Credits" min="0"/>
         </div>
     {/if}
 </div>
