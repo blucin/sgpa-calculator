@@ -79,8 +79,8 @@
       totalGradePoints += grade * credits;
     });
 
-    const SGPA = totalGradePoints / totalCredits;
-    return SGPA;
+    // round SGPA to 2 decimal places and return it
+    return Math.round((totalGradePoints / totalCredits) * 100) / 100;
   };
 
   onMount(() => {
