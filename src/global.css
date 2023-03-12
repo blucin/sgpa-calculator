@@ -7,3 +7,9 @@ body {
     margin: 0 !important;
     padding: 3% 30% 3% 30% !important;
 }
+
+@media(max-width: 768px) {
+    body {
+        padding: 3% 5% 3% 5% !important;
+    }
+}
