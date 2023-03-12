@@ -22,7 +22,7 @@
 
   function getLocalStorageSubCnt(): number {
     if (typeof localStorage !== "undefined") {
-      return parseInt(localStorage.getItem("subCnt") || "0");
+      return parseFloat(localStorage.getItem("subCnt") || "0");
     }
     return 0;
   }
