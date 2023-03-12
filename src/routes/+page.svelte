@@ -34,7 +34,10 @@
   };
 
   const handleIncrementClick = () => {
-    formData.update((value) => [...value, { subjectName: "", grade: 0, credits: 0 }]);
+    formData.update((value) => [
+      ...value,
+      { subjectName: "", grade: 0, credits: 0 },
+    ]);
     updateSubCnt(subCnt + 1);
   };
 
@@ -56,36 +59,63 @@
     */
 </script>
 
+<style>
+  .main-cnt-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .incr-btn-container {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .btn {
+    height: 25px;
+    width: 25px;
+    background-color: black;
+    color:white;
+    cursor: pointer;
+    border:none;
+    font-weight: 900!important; 
+  }
+</style>
+
 <h1>SGPA Calculator</h1>
 
-<div class="incr-btn-container">
-  <button class="btn" on:click={handleDecrementClick}> - </button>
-  <p>Subject Count: {subCnt}</p>
-  <button class="btn" on:click={handleIncrementClick}> + </button>
+<div class="main-cnt-container">
+  <p>Subject Count:</p>
 
-  {#if subCnt > 0}
-    <div class="form">
-      <ul>
-        {#each $formData as data}
-          <input
-            type="text"
-            placeholder="Subject Name"
-            bind:value={data.subjectName}
-          />
-          <input
-            type="number"
-            placeholder="Grade"
-            min="0"
-            bind:value={data.grade}
-          />
-          <input
-            type="number"
-            placeholder="Credits"
-            min="0"
-            bind:value={data.credits}
-          />
-        {/each}
-      </ul>
-    </div>
-  {/if}
+  <div class="incr-btn-container">
+    <button class="btn" on:click={handleDecrementClick}> - </button>
+    <span>{subCnt}</span>
+    <button class="btn" on:click={handleIncrementClick}> + </button>
+  </div>
 </div>
+
+{#if subCnt > 0}
+  <div class="form">
+    <ul>
+      {#each $formData as data}
+        <input
+          type="text"
+          placeholder="Subject Name"
+          bind:value={data.subjectName}
+        />
+        <input
+          type="number"
+          placeholder="Grade"
+          min="0"
+          bind:value={data.grade}
+        />
+        <input
+          type="number"
+          placeholder="Credits"
+          min="0"
+          bind:value={data.credits}
+        />
+      {/each}
+    </ul>
+  </div>
+{/if}
