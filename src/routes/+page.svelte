@@ -9,8 +9,9 @@
     credits: number;
   }[];
 
-  // set subCnt to 0 or the value in localStorage
-  let subCnt: number = getSubCnt();
+  // set subCnt or SGPA to 0 or the value in localStorage
+  let subCnt: number = getLocalStorageSubCnt();
+  let SGPA: number = getLocalStorageSGPA();
   const formData = writable([
     {
       subjectName: "",
@@ -19,9 +20,16 @@
     },
   ]);
 
-  function getSubCnt(): number {
+  function getLocalStorageSubCnt(): number {
     if (typeof localStorage !== "undefined") {
       return parseInt(localStorage.getItem("subCnt") || "0");
+    }
+    return 0;
+  }
+
+  function getLocalStorageSGPA(): number {
+    if (typeof localStorage !== "undefined") {
+      return parseInt(localStorage.getItem("SGPA") || "0");
     }
     return 0;
   }
@@ -47,19 +55,45 @@
     updateSubCnt(subCnt - 1);
   };
 
-  /*
-    onMount(() => {
-        // set formData to the old value in localStorage
-        if(typeof localStorage !== 'undefined') {
-            const oldFormData = JSON.parse(localStorage.getItem('formData') || '[]') as formDataType;
-            formData = oldFormData;
-            updateSubCnt(oldFormData.length);
-        }
+  const handleSubmit = (e:Event) => {
+    // set formData to localStorage
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem("formData", JSON.stringify($formData));
+    }
+
+    // update SGPA
+    SGPA = calculateSGPA($formData);
+
+    // set SGPA to localStorage
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem("SGPA", SGPA.toString());
+    }
+  };
+
+  const calculateSGPA = (formData: formDataType):number => {
+    let totalCredits = 0;
+    let totalGradePoints = 0;
+    formData.forEach((data) => {
+      const { grade, credits } = data;
+      totalCredits += credits;
+      totalGradePoints += grade * credits;
     });
-    */
+
+    const SGPA = totalGradePoints / totalCredits;
+    return SGPA;
+  };
+
+  onMount(() => {
+    // set formData to the old value from localStorage
+    if(typeof localStorage !== 'undefined') {
+        const oldFormData = JSON.parse(localStorage.getItem('formData') || '[]') as formDataType;
+        formData.set(oldFormData);
+        updateSubCnt(oldFormData.length);
+    }
+  });
 </script>
 
-<h1>Heading</h1>
+<h1>SGPA Calculator</h1>
 
 <div class="main-cnt-container">
   <p>Subject Count:</p>
@@ -72,7 +106,7 @@
 </div>
 
 {#if subCnt > 0}
-  <div class="form">
+  <form on:submit|preventDefault={handleSubmit} class="form">
     {#each $formData as data}
       <div class="form-fields-container">
         <div class="form-field">
@@ -111,9 +145,12 @@
 
       <div class="separator"> </div>
     {/each}
-  </div>
+    <button type="submit" class="btn calculate-btn">Calculate</button>
+  </form>
 
-  <button type="submit" class="btn calculate-btn">Calculate</button>
+  <div class="sgpa-container">
+    <p>SGPA: {SGPA}</p>
+  </div>
 {/if}
 
 <style>
