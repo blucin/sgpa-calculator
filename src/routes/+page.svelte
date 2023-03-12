@@ -59,6 +59,53 @@
     */
 </script>
 
+<h1>Heading</h1>
+
+<div class="main-cnt-container">
+  <p>Subject Count:</p>
+
+  <div class="incr-btn-container">
+    <button class="btn" on:click={handleDecrementClick}> - </button>
+    <span>{subCnt}</span>
+    <button class="btn" on:click={handleIncrementClick}> + </button>
+  </div>
+</div>
+
+{#if subCnt > 0}
+  <div class="form">
+    {#each $formData as data}
+    <div class="form-field-container">
+      <label for="credit">Subject Name:</label> 
+      <input
+        class="subject-name"
+        type="text"
+        bind:value={data.subjectName}
+      />
+      <div>
+        <label for="grade">Grade:</label>
+        <input
+          class="grade"
+          name="grade"
+          type="number"
+          placeholder="Grade"
+          min="0"
+          bind:value={data.grade}
+        />
+        <label for="credit">Credit:</label>
+        <input
+          class="credit"
+          name="credit"
+          type="number"
+          placeholder="Credits"
+          min="0"
+          bind:value={data.credits}
+        />
+      </div>
+    </div>
+    {/each}
+  </div>
+{/if}
+
 <style>
   .main-cnt-container {
     display: flex;
@@ -75,47 +122,28 @@
     height: 25px;
     width: 25px;
     background-color: black;
-    color:white;
+    color: white;
     cursor: pointer;
-    border:none;
-    font-weight: 900!important; 
+    border: none;
+    font-weight: 900 !important;
   }
+
+  .form {
+    margin-top: 20em;
+    gap: 1em;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1em;
+  }
+  
+  .form-field-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .subject-name, .grade, .credit {
+    border: 1px solid black;
+  }
+  
 </style>
-
-<h1>SGPA Calculator</h1>
-
-<div class="main-cnt-container">
-  <p>Subject Count:</p>
-
-  <div class="incr-btn-container">
-    <button class="btn" on:click={handleDecrementClick}> - </button>
-    <span>{subCnt}</span>
-    <button class="btn" on:click={handleIncrementClick}> + </button>
-  </div>
-</div>
-
-{#if subCnt > 0}
-  <div class="form">
-    <ul>
-      {#each $formData as data}
-        <input
-          type="text"
-          placeholder="Subject Name"
-          bind:value={data.subjectName}
-        />
-        <input
-          type="number"
-          placeholder="Grade"
-          min="0"
-          bind:value={data.grade}
-        />
-        <input
-          type="number"
-          placeholder="Credits"
-          min="0"
-          bind:value={data.credits}
-        />
-      {/each}
-    </ul>
-  </div>
-{/if}
