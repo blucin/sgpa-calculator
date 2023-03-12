@@ -74,36 +74,46 @@
 {#if subCnt > 0}
   <div class="form">
     {#each $formData as data}
-    <div class="form-field-container">
-      <label for="credit">Subject Name:</label> 
-      <input
-        class="subject-name"
-        type="text"
-        bind:value={data.subjectName}
-      />
-      <div>
-        <label for="grade">Grade:</label>
-        <input
-          class="grade"
-          name="grade"
-          type="number"
-          placeholder="Grade"
-          min="0"
-          bind:value={data.grade}
-        />
-        <label for="credit">Credit:</label>
-        <input
-          class="credit"
-          name="credit"
-          type="number"
-          placeholder="Credits"
-          min="0"
-          bind:value={data.credits}
-        />
+      <div class="form-fields-container">
+        <div class="form-field">
+          <label for="credit">Subject Name:</label>
+          <input
+            class="subject-name"
+            type="text"
+            bind:value={data.subjectName}
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="grade">Grade:</label>
+          <input
+            class="grade"
+            name="grade"
+            type="number"
+            placeholder="Grade"
+            min="0"
+            bind:value={data.grade}
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="credit">Credit:</label>
+          <input
+            class="credit"
+            name="credit"
+            type="number"
+            placeholder="Credits"
+            min="0"
+            bind:value={data.credits}
+          />
+        </div>
       </div>
-    </div>
+
+      <div class="separator"> </div>
     {/each}
   </div>
+
+  <button type="submit" class="btn calculate-btn">Calculate</button>
 {/if}
 
 <style>
@@ -120,12 +130,19 @@
 
   .btn {
     height: 25px;
-    width: 25px;
+    padding: 0 1em;
     background-color: black;
     color: white;
     cursor: pointer;
     border: none;
     font-weight: 900 !important;
+  }
+
+  .calculate-btn {
+    font-weight: 400 !important;
+    margin-top: 1em;
+    width: 30%;
+    font-family:Arial, Helvetica, sans-serif;
   }
 
   .form {
@@ -135,15 +152,29 @@
     flex-direction: column;
     margin-top: 1em;
   }
-  
-  .form-field-container {
+
+  .form-fields-container {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
   }
 
-  .subject-name, .grade, .credit {
+  .subject-name,
+  .grade,
+  .credit {
     border: 1px solid black;
   }
-  
+
+  .form-field {
+    display:flex;
+    justify-content: space-between;
+  }
+
+  .form-field > input {
+    width:60%;
+  }
+  .separator {
+    height: 1px;
+    background-color: black;
+  }
 </style>
